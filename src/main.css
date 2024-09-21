@@ -1,0 +1,55 @@
+#container {
+    display: flex;
+  justify-content: center;
+  flex-direction: column;
+  /* align-items: center; */
+  padding: 2rem;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.input-container input {
+    width: clamp(10rem, 100vw, 35vw);
+    margin-top: 0.5rem;
+    border: groove;
+    border-color: gray;
+    padding: 0.5rem;
+}
+
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+header {
+  background-color: #333;
+  color: white;
+  padding: 15px;
+  text-align: center;
+}
+
+footer {
+  background-color: #333;
+  height: 5vh;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}
+
+#jsonInput {
+  min-height: 300px;
+  width: 90vw;
+  margin-bottom: 6vh;
+  border-color: gray;
+  border-width: 2px;
+  background-color: white;
+  outline: none;
+}

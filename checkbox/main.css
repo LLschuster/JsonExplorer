@@ -1,0 +1,31 @@
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        
+        input[type="checkbox"]{
+            margin-top: 1.5rem;
+            margin-left: 1.5rem;
+            width: 1.35rem;
+            height: 1.35rem;
+            appearance: none;
+            background-color: #fff;
+            border: 2px solid #000;
+            border-radius: 0.20rem;
+        }
+
+        input[type="checkbox"]:checked{
+            background-color: #000;
+        }
+
+        input[type="checkbox"]:checked::before{
+            content: url(checkmark.svg); 
+        }
+
+        input[type="checkbox"]:focus {
+            outline: 2px solid blue;
+            outline-offset: 2px;
+        }

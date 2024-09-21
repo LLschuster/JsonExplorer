@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "outDir": "./public/",
+    "target": "es6",                           // Set the target ECMAScript version.
+    "lib": ["dom", "dom.iterable", "esnext"],  // Include standard library files.
+    "allowJs": true,                           // Allow JavaScript files to be compiled.
+    "skipLibCheck": true,                      // Skip checking the declaration files.
+    "esModuleInterop": true,                   // Emit additional JS to interop with CommonJS modules.
+    "allowSyntheticDefaultImports": true,      // Allow default imports from modules with no default export.
+    "strict": true,                            // Enable all strict type-checking options.
+    "forceConsistentCasingInFileNames": true,  // Ensure imports follow case sensitivity.
+    "noFallthroughCasesInSwitch": true,        // Enable error reporting for fallthrough cases in switch statements.
+    "module": "esnext",                        // Specify module code generation.
+    "moduleResolution": "node",                // Resolve module using Node.js style.
+    "resolveJsonModule": true,                 // Enable importing .json files.
+    "isolatedModules": true,                   // Ensure TypeScript treats each file as a separate module.
+    "jsx": "react-jsx"                         // Enable JSX and specify the JSX factory.
+  },
+  "include": ["src"],                          // Include the "src" folder in the compilation.
+  "exclude": ["node_modules", "build"]         // Exclude node_modules and build folder.
+}
