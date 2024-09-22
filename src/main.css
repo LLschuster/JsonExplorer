@@ -48,6 +48,7 @@ footer {
   min-height: 300px;
   width: 90vw;
   margin-bottom: 6vh;
+  border: groove;
   border-color: gray;
   border-width: 2px;
   background-color: white;

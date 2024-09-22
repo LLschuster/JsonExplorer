@@ -1,31 +1,35 @@
-const handleArray = (arrayValue: any[], propertyNames = {}, prefix="res") => {
+type PropertyNames = {
+  [key: string]: string[];
+};
+
+const handleArray = (arrayValue: any[], propertyNames = {}, prefix = "res") => {
   for (let [index, ele] of arrayValue.entries()) {
-    const newPrefix = `${prefix}.${index}`
+    const newPrefix = `${prefix}.${index}`;
     if (typeof ele == "object") {
       if (Array.isArray(ele)) {
         handleArray(ele, propertyNames, newPrefix);
       } else {
-        parseJson(ele, propertyNames, newPrefix)
+        parseJsonProperties(ele, propertyNames, newPrefix);
       }
     }
   }
 };
 
-type PropertyNames = {
-  [key: string]: string[]
-}
-
-const parseJson = (jsonInput: any, propertyNames: PropertyNames = {}, prefix="res") => {
+const parseJsonProperties = (
+  jsonInput: any,
+  propertyNames: PropertyNames = {},
+  prefix = "res"
+) => {
   const keys = Object.keys(jsonInput);
-  propertyNames[prefix] = keys
-  
+  propertyNames[prefix] = keys;
+
   for (const key of keys) {
     let value = jsonInput[key];
     if (typeof value == "object") {
       if (Array.isArray(value)) {
         handleArray(value, propertyNames, `${prefix}.${key}`);
       } else {
-        parseJson(value, propertyNames, `${prefix}.${key}`);
+        parseJsonProperties(value, propertyNames, `${prefix}.${key}`);
       }
     }
   }
@@ -33,40 +37,37 @@ const parseJson = (jsonInput: any, propertyNames: PropertyNames = {}, prefix="re
   return propertyNames;
 };
 
-export const getFormattedJson = (jsonInput: string, htmlReplacement: (prefix: string, prop: string) => string) => {
+/**
+ * 
+ * @param jsonInput 
+ * @param htmlReplacement: function that returns custom html component to replace for the json property names.
+ * @returns [formatted json string, parsed json as javascript object]
+ */
+export const getFormattedJson = (
+  jsonInput: string,
+  htmlReplacement: (prefix: string, prop: string) => string
+): [string | null, any | null] => {
   try {
-    if (!jsonInput){
-      return [null, null]
+    if (!jsonInput) {
+      return [null, null];
     }
     const object = JSON.parse(jsonInput);
-    let resultJson = JSON.stringify(object, null, 2)
-    const propertyNames = parseJson(object)
+    let resultJson = JSON.stringify(object, null, 2);
+    const propertyNames = parseJsonProperties(object);
 
-    resultJson = resultJson.replace(/( )(?=\s*(["\D\{\]}]))/g , "&nbsp;")
-    resultJson = resultJson.replaceAll('\n', "<br />")
+    resultJson = resultJson.replace(/( )(?=\s*(["\D\{\]}]))/g, "&nbsp;"); // add identation to final html
+    resultJson = resultJson.replaceAll("\n", "<br />"); // add new lines to final html
 
-    console.log({
-      object,
-      propertyNames
-    })
-    for (let [prefix, property] of Object.entries(propertyNames)){
-      for (const prop of property){
-        const regex = new RegExp(`"${prop}"( )*:`)
-        const htmlEle = htmlReplacement(prefix, prop)
-        resultJson = resultJson.replace(regex, htmlEle)
+    for (let [prefix, property] of Object.entries(propertyNames)) {
+      for (const prop of property) {
+        const regex = new RegExp(`"${prop}"( )*:`);
+        const htmlEle = htmlReplacement(prefix, prop);
+        resultJson = resultJson.replace(regex, htmlEle);
       }
     }
 
-    // const regex = new RegExp(/([\}\]'"]),/g)
-    // resultJson = resultJson.replace(regex, ",<br />")
-
-    console.log({resultJson})
-
-    return [resultJson, object]
+    return [resultJson, object];
   } catch (error) {
-    // console.log("Can't parse the json ", error)
-    return [null, null]
+    return [null, null];
   }
-  
-}
-
+};

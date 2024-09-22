@@ -1,22 +1,12 @@
 import { useEffect, useState } from "react"
-import { renderToString } from 'react-dom/server'
 import { getFormattedJson } from "./parseJson"
 
-const propertyHtml = (getPropertyName: (p: string) => string) => {
+const propertyHtml = () => {
   return (prefix: string, prop: string) => {
-      const html = (
-      <span style={{ color: 'blue' }} onClick={() => {
-      console.log(prefix, prop)
-      getPropertyName(prefix + '.' + prop)
-      }}>{prop}</span>
-    )
-
     const shtml = `
       <span id="${prefix}.${prop}" class="jsonField" style="color:blue; cursor:pointer">${prop}</span>:`
       .replaceAll("\n", "")
     
-    console.log(shtml, '<<>> ', renderToString(html))
-
     return shtml
   }
 }
@@ -35,21 +25,27 @@ export const useJsonExplorer = (): UseJsonExplorerReturn => {
   const [valueOfSelectedProp, setValueOfSelectedProp] = useState("")
 
   useEffect(() => {
-    const htmlReplacement = propertyHtml(getPropertyValue)
+    const htmlReplacement = propertyHtml()
     const [formattedJson, jsonObject] = getFormattedJson(jsonData, htmlReplacement)
     if (!formattedJson || !jsonObject) return
 
     setJsonObject(jsonObject)
     setFormattedJson(formattedJson)
+    console.log({formattedJson})
   }, [jsonData])
 
+  /**
+   * 
+   * @param propertyPath. string used to get value on parsed json.  
+   * Example "res.fields.0.value" refers to json[fields][0][value]
+   * @returns value of json property based on the property path provided
+   */
   const getPropertyValue = (propertyPath: string) => {
-    console.log("sjkdfsdjkfhsjkdh")
     const parts = propertyPath.split('.').slice(1)
     let value: any = jsonObject
 
-    console.log("getPropertyValue ", parts, value)
     for (const part of parts){
+        if (!value || !part) continue
         value = value[part]
     }
 
