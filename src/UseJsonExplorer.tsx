@@ -18,6 +18,12 @@ setJsonData: React.Dispatch<React.SetStateAction<string>>,
 jsonData: string
 valueOfSelectedProp: string
 }
+
+/**
+ * 
+ * useJsonExplorer is a custom hook that handles the formatting and parsing of the json input
+ * also the ability to interact with it.
+ */
 export const useJsonExplorer = (): UseJsonExplorerReturn => {
   const [jsonObject, setJsonObject] = useState<any>()
   const [jsonData, setJsonData] = useState<string>("")
