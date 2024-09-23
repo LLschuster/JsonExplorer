@@ -52,14 +52,19 @@ export const useJsonExplorer = (): UseJsonExplorerReturn => {
 
     for (const part of parts){
         if (!value || !part) continue
+        if (part.startsWith("[") && part.endsWith("]")){
+          value = value[part.slice(1, part.length - 1)]
+          continue
+        }
         value = value[part]
     }
 
     if (typeof value == "object"){
         if (Array.isArray(value)){
-            value = "array of values"
+          
+            value = `array of ${value.length} values: [${value[0].toString().substring(0, 10)}...]`
         } else {
-            value = "json object"
+            value = `json object with props: ${Object.keys(value)}`
         }
     } else if (typeof value == "boolean") {
         value = value.toString()

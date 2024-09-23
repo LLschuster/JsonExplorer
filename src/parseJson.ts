@@ -4,7 +4,7 @@ type PropertyNames = {
 
 const handleArray = (arrayValue: any[], propertyNames = {}, prefix = "res") => {
   for (let [index, ele] of arrayValue.entries()) {
-    const newPrefix = `${prefix}.${index}`;
+    const newPrefix = `${prefix}.[${index}]`;
     if (typeof ele == "object") {
       if (Array.isArray(ele)) {
         handleArray(ele, propertyNames, newPrefix);

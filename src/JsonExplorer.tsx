@@ -52,6 +52,7 @@ export const JsonExplorer = () => {
           </div>
           <div
             contentEditable
+            spellCheck={false}
             id="jsonInput"
             dangerouslySetInnerHTML={{ __html: formattedJson }}
             onInput={(e) => {
